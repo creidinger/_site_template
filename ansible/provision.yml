@@ -1,0 +1,13 @@
+---
+- hosts: all
+  become: yes
+  gather_facts: false
+  tasks:
+    # - name: install apache2
+    #   apt:
+    #     name: apache2
+    #     state: present
+    #   environment:
+    #     RUNLEVEL: 1
+    - name: install Apache
+      command: sudo apt install apache2
