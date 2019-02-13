@@ -40,7 +40,7 @@ end
 # All Vagrant configuration is done below.
 Vagrant.configure("2") do |config|
 
-  # vagrant hostmanager config
+  ####### vagrant hostmanager config
   # source: https://github.com/devopsgroup-io/vagrant-hostmanager
   config.hostmanager.enabled = true
   config.hostmanager.manage_host = true
@@ -65,18 +65,13 @@ Vagrant.configure("2") do |config|
   # Select OS
   config.vm.box = "bento/ubuntu-18.04"
 
-  # hostmanager's hostname and network setup
+  ######## hostmanager's hostname and network setup
   # source: https://github.com/devopsgroup-io/vagrant-hostmanager
   config.vm.define VM_NAME do |node|
     node.vm.hostname = VM_HOSTNAME
     node.vm.network :private_network, type: "dhcp"
     node.hostmanager.aliases = %w(<TEMPLATE>-local.adepdev.com <TEMPLATE>-local)
   end
-
-  # Disable automatic box update checking. If you disable this, then
-  # boxes will only be checked for updates when the user runs
-  # `vagrant box outdated`. This is not recommended.
-  # config.vm.box_check_update = false
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
@@ -93,10 +88,6 @@ Vagrant.configure("2") do |config|
   # your network.
   # config.vm.network "public_network"
 
-
-  # View the documentation for the provider you are using for more
-  # information on available options.
-
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
@@ -104,4 +95,14 @@ Vagrant.configure("2") do |config|
   #   apt-get update
   #   apt-get install -y apache2
   # SHELL
+
+  ####### PROVISION
+  #
+  # Run Ansible from Varant host
+  #
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "ansible/provision.yml"
+  end
+  #######
+
 end
