@@ -23,30 +23,9 @@ end
 VM_NAME     = "<TEMPLATE>"
 VM_HOSTNAME = "<TEMPLATE>-local.adepdev.com"
 
-# Check to determine whether we're on a windows or linux/os-x host,
-# later on we use this to launch ansible in the supported way
-# source: https://stackoverflow.com/questions/2108727/which-in-ruby-checking-if-program-exists-in-path-from-ruby
-def which(cmd)
-    exts = ENV['PATHEXT'] ? ENV['PATHEXT'].split(';') : ['']
-    ENV['PATH'].split(File::PATH_SEPARATOR).each do |path|
-        exts.each { |ext|
-            exe = File.join(path, "#{cmd}#{ext}")
-            return exe if File.executable? exe
-        }
-    end
-    return nil
-end
 
 # All Vagrant configuration is done below.
 Vagrant.configure("2") do |config|
-
-  ####### vagrant hostmanager config
-  # source: https://github.com/devopsgroup-io/vagrant-hostmanager
-  config.hostmanager.enabled = true
-  config.hostmanager.manage_host = true
-  config.hostmanager.manage_guest = true
-  config.hostmanager.ignore_private_ip = false
-  config.hostmanager.include_offline = true
 
   # customize the vm using
   # virtualbox command modifyvm
@@ -65,13 +44,26 @@ Vagrant.configure("2") do |config|
   # Select OS
   config.vm.box = "bento/ubuntu-18.04"
 
-  ######## hostmanager's hostname and network setup
+  ####### vagrant hostmanager config
   # source: https://github.com/devopsgroup-io/vagrant-hostmanager
+  config.hostmanager.enabled = true
+  config.hostmanager.manage_host = true
+  config.hostmanager.manage_guest = true
+  config.hostmanager.ignore_private_ip = false
+  config.hostmanager.include_offline = true
   config.vm.define VM_NAME do |node|
     node.vm.hostname = VM_HOSTNAME
     node.vm.network :private_network, type: "dhcp"
     node.hostmanager.aliases = %w(<TEMPLATE>-local.adepdev.com <TEMPLATE>-local)
   end
+
+  config.hostmanager.ip_resolver = proc do |vm, resolving_vm|
+    if hostname = (vm.ssh_info && vm.ssh_info[:host])
+      `host #{hostname}`.split("\n").last[/(\d+\.\d+\.\d+\.\d+)/, 1]
+    end
+  end
+
+  #######
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
@@ -97,12 +89,19 @@ Vagrant.configure("2") do |config|
   # SHELL
 
   ####### PROVISION
+
   #
   # Run Ansible from Varant host
   #
-  config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "ansible/provision.yml"
+  # if windows run ansible from separate location
+  if Vagrant::Util::Platform.windows? then
+    ### windwos
+  else
+    config.vm.provision "ansible" do |ansible|
+      ansible.playbook = "ansible/provision.yml"
+    end
   end
+
   #######
 
 end
