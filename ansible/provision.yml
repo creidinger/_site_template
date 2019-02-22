@@ -7,4 +7,12 @@
       apt:
         name: apache2
         state: present
+    - name: install mysql-server
+      apt:
+        name: mysql-server
+        state: present
+    - name: install php7.2
+      apt:
+        name: php7.2
+        state: present
     - include_tasks: test_handler.yml
