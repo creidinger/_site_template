@@ -1,0 +1,7 @@
+---
+- name: install mysql-server
+  apt:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - mysql-server

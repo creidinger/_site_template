@@ -1,0 +1,5 @@
+---
+- name: install php7.2
+  apt:
+    name: php7.2
+    state: latest

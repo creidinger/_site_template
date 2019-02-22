@@ -1,0 +1,13 @@
+---
+#
+# Base server packages
+#
+- name: Install system packages
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+    state: latest
+  loop:
+    - wget
+    - nano
+    - curl

@@ -2,17 +2,18 @@
 - hosts: all
   become: yes
   gather_facts: false
+
+  roles:
+    - role: common
+
+    - role: apache
+
+    - role: mysql-server
+
+    - role: php
+
+    - role: phpmyadmin
+
   tasks:
-    - name: install apache2
-      apt:
-        name: apache2
-        state: present
-    - name: install mysql-server
-      apt:
-        name: mysql-server
-        state: present
-    - name: install php7.2
-      apt:
-        name: php7.2
-        state: present
-    - include_tasks: test_handler.yml
+    - name:
+      include_tasks: test_handler.yml
