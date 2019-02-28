@@ -1,5 +1,8 @@
 ---
 - name: install php7.2
   apt:
-    name: php7.2
+    name: "{{ item }}"
     state: latest
+  loop:
+    - php7.2
+    - composer

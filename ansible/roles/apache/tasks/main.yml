@@ -1,5 +1,8 @@
 ---
 - name: install apache2
   apt:
-    name: apache2
+    name: "{{ item }}"
     state: latest
+  loop:
+    - apache2
+    - openssl

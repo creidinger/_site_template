@@ -1,13 +1,18 @@
 ---
 #
 # Base server packages
+# Many are listed because it's unclear what will be installed with vagrant
 #
 - name: Install system packages
   apt:
     name: "{{ item }}"
-    update_cache: yes
     state: latest
+    update_cache: yes
   loop:
     - wget
     - nano
     - curl
+    - rsync
+    - vim
+    - git
+    - git-lfs
