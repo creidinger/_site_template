@@ -1,2 +1,6 @@
-# _site_template
-A template to expedite development and simplify production migration
+# Vagrant LAMP Stack
+- A template for developing Websites quickly on a VM, making prod implementations smoother.
+## Required software
+- vagrant
+- ansible
+- virtualbox
