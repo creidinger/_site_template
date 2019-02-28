@@ -31,7 +31,7 @@ Vagrant.configure("2") do |config|
   # virtualbox command modifyvm
   config.vm.provider "virtualbox" do |v|
     v.name    = VM_NAME
-    v.memory  = 512
+    v.memory  = 512     # ram
     v.cpus    = 1
     v.gui     = false
     v.customize [
@@ -57,39 +57,21 @@ Vagrant.configure("2") do |config|
     node.hostmanager.aliases = %w(<TEMPLATE>-local.adepdev.com <TEMPLATE>-local)
   end
 
+   #
+   # vagrant ssh -c allows you to run an script in ssh.
+   # source: https://www.vagrantup.com/docs/cli/ssh.html
+   # get the dhcp address and assign it to the hosts hostfile
+   #
   config.hostmanager.ip_resolver = proc do |vm, resolving_vm|
     if hostname = (vm.ssh_info && vm.ssh_info[:host])
-      `host #{hostname}`.split("\n").last[/(\d+\.\d+\.\d+\.\d+)/, 1]
+      `vagrant ssh -c "hostname -I"`.split.last
     end
   end
 
   #######
 
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine. In the example below,
-  # accessing "localhost:8080" will access port 80 on the guest machine.
-  # NOTE: This will enable public access to the opened port
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
-
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  # config.vm.network "private_network", ip: "192.168.33.10"
-
-  # Create a public network, which generally matched to bridged network.
-  # Bridged networks make the machine appear as another physical device on
-  # your network.
-  # config.vm.network "public_network"
-
-  # Enable provisioning with a shell script. Additional provisioners such as
-  # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
-  # documentation for more information about their specific syntax and use.
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   apt-get update
-  #   apt-get install -y apache2
-  # SHELL
 
   ####### PROVISION
-
   #
   # Run Ansible from Varant host
   #
