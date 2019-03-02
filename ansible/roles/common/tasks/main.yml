@@ -16,3 +16,7 @@
     - vim
     - git
     - git-lfs
+
+- name: Set Timezone to: America/New_York
+  timezone:
+    name: America/New_York
