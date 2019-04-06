@@ -21,7 +21,7 @@ end
 ########
 
 VM_NAME        = "<TEMPLATE>"
-VM_HOSTNAME    = "<TEMPLATE>-local.perceptengine.com"
+VM_HOSTNAME    = "<TEMPLATE>-local.adepdev.com"
 
 # All Vagrant configuration is done below.
 Vagrant.configure("2") do |config|
@@ -55,7 +55,7 @@ Vagrant.configure("2") do |config|
     ####### vagrant hostmanager config
     h.vm.hostname = VM_HOSTNAME
     h.vm.network :private_network, type: "dhcp"
-    h.hostmanager.aliases = %w(<TEMPLATE>-local.perceptengine.com gui-local)
+    h.hostmanager.aliases = %w(<TEMPLATE>-local.adepdev.com <TEMPLATE>-local)
 
    #
    # vagrant ssh -c allows you to run an script in ssh.
