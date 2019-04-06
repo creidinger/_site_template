@@ -1,27 +1,54 @@
 ---
 - name: Install apache2
   apt:
-    name: "{{ item }}"
+    pkg: "{{ item }}"
     state: latest
   loop:
     - apache2
+    - libapache2-mod-security2
     - openssl
 
-# - name: Copy apache2 config files.
-#   copy:
-#     src: " {{ item.src }}"
-#     dest: "{{ item.dest }}"
-#     owner: root
-#     group: root
-#     mode: 0644
-#   with_items:
-#     - src: "httpd.conf"
-#       dest: "/etc/apache2/conf/httpd.conf"
-#     - src: "httpd-vhosts.conf"
-#       dest: "/etc/httpd/conf/httpd-vhosts.conf"
-#
-#   - name: Make sure Apache is started now and at boot.
-#     service:
-#       name: apache2
-#       state: started
-#       enabled: yes
+- name: install Apache2 Modules
+  apache2_module:
+    name: "{{ item }}"
+    state: present
+  notify: restart apache
+  loop:
+    - rewrite
+    - vhost_alias
+    - headers
+    - expires
+    - filter
+    - security2
+    - ssl
+
+- name: Create/update ssl and security config
+  template:
+    src: "{{ item }}.j2"
+    dest: /etc/apache2/conf-available/{{ item }}
+  notify: restart apache
+  loop:
+    - security.conf
+    - ssl.conf
+
+- name: Create/update virtual host
+  template:
+    src: vhost.conf.j2
+    dest: /etc/apache2/sites-available/{{ servername }}.conf
+  notify: restart apache
+
+- name: Disable default vhost
+  command: a2dissite 000-default.conf
+  notify: restart apache
+
+- name: Enable apache vhost
+  command: a2ensite {{ item }}
+  loop:
+    - "{{ servername }}.conf"
+  notify: restart apache
+
+- name: Make sure Apache is started now and at boot.
+  service:
+    name: apache2
+    state: started
+    enabled: yes

@@ -1,0 +1,15 @@
+
+[gui]
+<TEMPALTE>-local.adepdev.com
+
+[db]
+<TEMPALTE>-local.adepdev.com
+
+
+### Groups
+[web:children]
+gui
+
+[global:children]
+gui
+db

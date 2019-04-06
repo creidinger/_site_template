@@ -1,8 +1,22 @@
 ---
-- name: install php7.2
+- name: Install php
   apt:
     name: "{{ item }}"
-    state: latest
+    # state: latest
   loop:
-    - php7.2
-    - composer
+    - php
+    - php-curl
+    - php-gd
+    - php-xml
+    - php-mysql
+    - php-pear
+    - libyaml-dev
+    - libapache2-mod-php
+    # resolve composer errors
+    - php-bcmath
+    - php-mbstring
+
+- name: enable php-mcrypt config
+  shell: phpenmod mcrypt;
+  notify:
+    - restart apache

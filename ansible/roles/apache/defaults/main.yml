@@ -1,0 +1,4 @@
+---
+apache_log_dir: /var/log/apache2
+
+vhost_conf_file_name: 000-default.conf  

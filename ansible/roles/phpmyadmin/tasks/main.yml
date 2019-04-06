@@ -1,7 +1,23 @@
 ---
-- name:
+- name: Install PHPMyAdmin
   apt:
-    name: "{{ item }}"
+    pkg: phpmyadmin
     state: latest
-  loop:
-    - phpmyadmin
+  # notify: restart apache
+
+- name: Add default username and password for MySQL connection.
+  lineinfile: >
+    dest=/etc/phpmyadmin/config.inc.php
+    state=present
+    regexp="^.+\['{{ item.key }}'\].+$"
+    line="$cfg['Servers'][$i]['{{ item.key }}'] = '{{ item.value }}';"
+    insertbefore="^\?>"
+  with_items:
+  - { key: host, value: "{{ phpmyadmin_mysql_host }}" }
+  - { key: port, value: "{{ phpmyadmin_mysql_port }}" }
+  - { key: socket, value: "{{ phpmyadmin_mysql_socket }}" }
+  - { key: connect_type, value: "{{ phpmyadmin_mysql_connect_type }}" }
+  - { key: only_db, value: "{{ mysql_database }}" }
+  - { key: auth_type, value: "config" }
+  - { key: user, value: "root" }
+  - { key: password, value: "{{ mysql_root_password }}" }
