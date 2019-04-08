@@ -1,15 +1,10 @@
-
-[gui]
 <TEMPLATE>-local.adepdev.com
 
-[db]
+[www]
 <TEMPLATE>-local.adepdev.com
 
-
-### Groups
-[web:children]
-gui
+[sql]
+<TEMPLATE>-local.adepdev.com
 
 [global:children]
-gui
-db
+www

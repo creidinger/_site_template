@@ -37,12 +37,12 @@ Vagrant.configure("2") do |config|
   config.hostmanager.include_offline = true
 
 
-  config.vm.define "host", primary: true do |h|
+  config.vm.define "<TEMPLATE>-local.adepdev.com", primary: true do |server|
 
     # global Virtualbox config
-    h.vm.provider :virtualbox do |v|
+    server.vm.provider :virtualbox do |v|
       v.name    = VM_NAME
-      v.memory  = 1024
+      v.memory  = 512
       v.cpus    = 1
       v.gui     = false
       v.customize [
@@ -53,16 +53,16 @@ Vagrant.configure("2") do |config|
     end
 
     ####### vagrant hostmanager config
-    h.vm.hostname = VM_HOSTNAME
-    h.vm.network :private_network, type: "dhcp"
-    h.hostmanager.aliases = %w(<TEMPLATE>-local.adepdev.com <TEMPLATE>-local)
+    server.vm.hostname = VM_HOSTNAME
+    server.vm.network :private_network, type: "dhcp"
+    server.hostmanager.aliases = %w(<TEMPLATE>-local.adepdev.com <TEMPLATE>-local)
 
    #
    # vagrant ssh -c allows you to run an script in ssh.
    # source: https://www.vagrantup.com/docs/cli/ssh.html
    # get the dhcp address and assign it to the hosts hostfile
    #
-    h.hostmanager.ip_resolver = proc do |vm, resolving_vm|
+    server.hostmanager.ip_resolver = proc do |vm, resolving_vm|
       if hostname = (vm.ssh_info && vm.ssh_info[:host])
         `vagrant ssh -c "hostname -I"`.split.last
       end
@@ -80,7 +80,7 @@ Vagrant.configure("2") do |config|
     ### windwos
   else
     config.vm.provision "ansible" do |ansible|
-      ansible.inventory_path = "ansible/inventories/local"
+      ansible.inventory_path = "ansible/inventories/dev"
       ansible.playbook = "ansible/provision.yml"
     end
   end # end if

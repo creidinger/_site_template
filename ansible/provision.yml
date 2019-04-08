@@ -1,63 +1,23 @@
 ---
-#
-# global
-#
-- hosts: global
+- hosts: www
   become: yes
-  gather_facts: false
-
-  tasks:
-  - name: Install python 2.7
-    raw: apt-get update -qq; apt-get install -qq python2.7
+  gather_facts: true
 
   roles:
     - role: common
-
-
-#
-# WEB
-#
-- hosts: web
-  become: yes
-  gather_facts: true
-
-  roles:
     - role: php
     - role: composer
     - role: apache
-
-  # tasks:
-  # - name: Install composer packages
-  #   composer:
-  #     command: install
-  #     working_dir: "{{ item }}"
-  #   loop:
-  #     - "{{ composer_working_dir }}"
-
-
-#
-# DB setup
-#
-- hosts: db
-  become: yes
-  gather_facts: true
-
-  roles:
     - role: mysql-server
-
-#
-# GUI setup
-#
-- hosts: gui
-  become: yes
-  gather_facts: true
-
-  roles:
     - role: nodejs
     - role: phpmyadmin
       when: install_phpymyadmin is defined
 
-  # tasks:
+  pre_tasks:
+  - name: Install python 2.7
+    raw: apt-get update -qq; apt-get install -qq python2.7
+
+  tasks:
   # - name: Install npm packages based on package.json.
   #   npm:
   #     path: /vagrant/src/public_html/assets
@@ -67,6 +27,13 @@
       name: apache2
       state: restarted
       enabled: yes
+
+  # - name: Install composer packages
+  #   composer:
+  #     command: install
+  #     working_dir: "{{ item }}"
+  #   loop:
+  #     - "{{ composer_working_dir }}"
 
   post_tasks:
     - name: open URL
