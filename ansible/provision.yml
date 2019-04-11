@@ -6,7 +6,7 @@
   roles:
     - role: creidinger.common
     - role: creidinger.php
-    - role: composer
+    - role: creidinger.composer
     - role: creidinger.apache
     - role: creidinger.mysql_server
     - role: geerlingguy.nodejs
