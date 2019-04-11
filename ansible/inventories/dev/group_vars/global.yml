@@ -26,3 +26,4 @@ mysql_host: localhost
 mysql_database: <TEMPLATE>
 mysql_user: <TEMPLATE>
 mysql_port: 3306
+mysql_backup_filename: REPLACE_ME.sql
