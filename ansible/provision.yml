@@ -13,10 +13,6 @@
     - role: creidinger.phpmyadmin
       when: install_phpymyadmin is defined
 
-  pre_tasks:
-  - name: Install python 2.7
-    raw: apt-get update -qq; apt-get install -qq python2.7
-
   tasks:
   # - name: Install npm packages based on package.json.
   #   npm:
