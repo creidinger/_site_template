@@ -80,6 +80,7 @@ Vagrant.configure("2") do |config|
     ### windwos
   else
     config.vm.provision "ansible" do |ansible|
+      ansible.compatibility_mode = "2.0"
       ansible.inventory_path = "ansible/inventories/dev"
       ansible.playbook = "ansible/provision.yml"
     end
