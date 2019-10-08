@@ -6,30 +6,17 @@
   roles:
     - role: creidinger.common
     - role: creidinger.php
-    - role: creidinger.composer
     - role: creidinger.apache
     - role: creidinger.mysql_server
-    - role: geerlingguy.nodejs
     - role: creidinger.phpmyadmin
       when: install_phpymyadmin is defined
 
   tasks:
-  # - name: Install npm packages based on package.json.
-  #   npm:
-  #     path: /vagrant/src/public_html/assets
-
   - name: restart apache
     service:
       name: apache2
       state: restarted
       enabled: yes
-
-  # - name: Install composer packages
-  #   composer:
-  #     command: install
-  #     working_dir: "{{ item }}"
-  #   loop:
-  #     - "{{ composer_working_dir }}"
 
   post_tasks:
     - name: open URL
