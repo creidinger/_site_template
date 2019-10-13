@@ -12,6 +12,15 @@
       when: install_phpymyadmin is defined
 
   tasks:
+  # - name: Install npm packages based on /assets/pacage.json
+  #   npm:
+  #     path: /vagrant/src/public_html/assets
+  #
+  # - name: Update composer packages
+  #   composer:
+  #     command: updated
+  #     working_dir: /vagrant/src/public_html
+  #
   - name: restart apache
     service:
       name: apache2
