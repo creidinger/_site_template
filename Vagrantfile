@@ -88,4 +88,7 @@ Vagrant.configure("2") do |config|
 
   #######
 
+  # fix for file uplaod permissions w/ vagrant
+  config.vm.synced_folder "./", "/vagrant", mount_options: ["dmode=777,fmode=666"]
+
 end
