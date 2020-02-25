@@ -1,5 +1,10 @@
 # Vagrant LAMP Stack
-- A template for developing Websites quickly on a VM, making prod implementations smoother.
+
+A template for developing Websites quickly on a VM, making prod implementations smoother.
+
+This version of Vagrant LAMP stack doesn't include Libraries or CMS's
+
+If you'd like to checkout Laravel, go to [template-laravel-lamp-stack](https://github.com/creidinger/template-vagrant-ansible-laravel-lamp-stack)
 
 ## Required software
 - [VirtualBox](https://www.virtualbox.org)
@@ -8,20 +13,16 @@
 
 ## Software included
 
-Built on a Ubuntu 18.04 (Trusty) base VM and provisions the server with current versions of several software packages, including:
+Built on a Ubuntu VM and provisions the server with current versions of several software packages, including:
 
 1. Apache
 2. MySql
 3. [Composer](https://github.com/composer/composer)
 
-## Vagrant LAMP Stack
-
-Vagrant LAMP Stack requires recent versions Vagrant and VirtualBox and Ansible.
-
-Currently, VirtualBox is the only supported provider.
 
 ## How to use Vagrant LAMP Stack
 
 1. Clone the repo.
-2. Open the Vagrant file
-3. Find and replace <TEMPLATE>, this names your vm.
+1. Open the Vagrant file.
+1. Find and replace \<TEMPLATE\>, this names your vm.
+1. Run `vagrant up` from your command line
