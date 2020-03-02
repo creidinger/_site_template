@@ -1,16 +1,26 @@
 ---
+# ansible-playbook provision.yml -i inventories/<hosts> --ask-become-pass
+ansible_ssh_user:         ubuntu
+
 # this determins how ssl is set up
-vagrant_local_hostname:   true
+vagrant_local_hostname:   false
 
-doc_root:                 /vagrant/src/public_html
+deploy_src_files:         true
 
-composer_working_dir:     /vagrant/src/public_html
+host_key_checking:        false
 
-servername:               <TEMPLATE>-local.adepdev.com
-serveralias:              <TEMPLATE>-local.adepdev.com
-base_url:                 http://<TEMPLATE>-local.adepdev.com
+# path to repo src files
+source_path:              /src/public_html/
 
-remote_path:              /vagrant/
+doc_root:                 /var/www/<TEMPLATE>.com
+
+composer_working_dir:     /var/www/<TEMPLATE>.com
+
+servername:               <TEMPLATE>.com
+serveralias:              <TEMPLATE>.com
+base_url:                 http://<TEMPLATE>.com
+
+remote_path:              /var/www/<TEMPLATE>
 php_display_errors:       On
 debug_mode:               true
 install_phpymyadmin:      true
